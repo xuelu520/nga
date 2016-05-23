@@ -1,86 +1,75 @@
 package makyu.nga.constant;
 
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
+import android.content.Context;
+import android.util.Log;
 
-import java.io.IOException;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by bb on 16/5/23.
  */
-public class HttpConstant {
-    private static HttpConstant mInstance;
-    private OkHttpClient mOkHttpClient;
+public class HttpConstant{
+    RequestQueue mQueue;
+    public static final String TAG = "HttpConstant";
 
-    /**
-     * 构造方法
-     */
-    private HttpConstant() {
-        mOkHttpClient = new OkHttpClient();
-        //设置cookie可用
-        mOkHttpClient.setCookieHandler(new CookieManager(
-                null,
-                CookiePolicy.ACCEPT_ORIGINAL_SERVER));
-
+    public HttpConstant(Context context) {
+        mQueue = Volley.newRequestQueue(context);
     }
 
     /**
-     * 获取 HttpConstant 实例
-     * @return HttpConstant mInstance
+     * volley 发送 GET请求
+     * @param url String 请求地址
      */
-    private static HttpConstant getInstance() {
-        if(mInstance == null) {
-            synchronized (HttpConstant.class) {
-                if(mInstance == null) {
-                    mInstance = new HttpConstant();
+    public void get(String url) {
+        StringRequest stringRequest = new StringRequest(url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG, error.getMessage(), error);
+                    }
+                });
+        mQueue.add(stringRequest);
+    }
+
+    /**
+     * volley 发送简单 POST(非上传)请求
+     * @param url String 请求地址
+     * @param params HashMap<String, String> POST 数据
+     */
+    public void post(String url, final HashMap<String, String> params) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, "response -> " + response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG, error.getMessage(), error);
+                    }
                 }
+        ){
+            @Override
+            protected Map<String, String> getParams() {
+                return params;
             }
-        }
-        return mInstance;
-    }
-
-    /**
-     * 同步 GET 请求,返回 Response 类型数据
-     * @param url String
-     * @return Response
-     * @throws IOException
-     */
-    private Response _get(String url) throws IOException {
-        final Request request = new Request.Builder().url(url).build();
-        Response execute = mOkHttpClient.newCall(request).execute();
-        return execute;
-    }
-
-    /**
-     * 同步 GET 请求,返回字符串
-     * @param url String
-     * @return string
-     * @throws IOException
-     */
-    private String _getAsString(String url) throws IOException {
-        return _get(url).body().string();
-    }
-
-    /**
-     * 对外 GET 请求,返回 Response 类型数据
-     * @param url String
-     * @return Response
-     * @throws IOException
-     */
-    public static Response get(String url) throws IOException {
-        return getInstance()._get(url);
-    }
-
-    /**
-     * 对外 GET 请求,返回字符串
-     * @param url String
-     * @return String
-     * @throws IOException
-     */
-    public static String getAsString(String url) throws IOException {
-        return getInstance()._getAsString(url);
+        };
+        mQueue.add(stringRequest);
     }
 }
