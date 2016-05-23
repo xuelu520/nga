@@ -1,15 +1,18 @@
 package makyu.nga.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
-import makyu.nga.R;
+/**
+ * Created by bb on 16/5/23.
+ */
+public class BaseActivity extends AppCompatActivity {
+    protected FragmentManager fm;
 
-public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        fm = getSupportFragmentManager();
     }
-
 }

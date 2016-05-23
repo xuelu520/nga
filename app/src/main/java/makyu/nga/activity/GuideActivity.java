@@ -1,7 +1,8 @@
 package makyu.nga.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
+
+import makyu.nga.R;
 
 /**
  * 引导页.
@@ -9,9 +10,12 @@ import android.os.Bundle;
  * 该页面负责 账号相关 Splash相关 引导页相关.
  * 管理各种Fragment.
  */
-public class GuideActivity extends Activity {
+public class GuideActivity extends BaseActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_guide);
     }
+
 }
