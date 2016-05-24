@@ -1,12 +1,9 @@
 package makyu.nga.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 
 import makyu.nga.R;
-import makyu.nga.constant.HttpConstant;
+import makyu.nga.http.HttpCenter;
 
 /**
  * 引导页.
@@ -22,13 +19,11 @@ public class GuideActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
-
+        unitTest();
     }
 
     private void unitTest() {
-        if(!openTest) {
-            return;
-        }
         String url = "http://bbs.nga.cn/thread.php?fid=335&lite=js";
+        HttpCenter.httpTest(url, null);
     }
 }
