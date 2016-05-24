@@ -2,7 +2,6 @@ package makyu.nga.app;
 
 import android.app.Application;
 
-import makyu.nga.http.HttpHelper;
 import makyu.nga.http.RequestQueueSingleton;
 
 /**
@@ -19,6 +18,5 @@ public class NgaApp extends Application {
 
     private void initInMainThread() {
         RequestQueueSingleton.init(this);
-        HttpHelper.init();
     }
 }

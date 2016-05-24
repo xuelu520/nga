@@ -17,9 +17,6 @@ import java.util.Map;
 class HttpHelper {
     private static final String TAG = HttpHelper.class.getSimpleName();
 
-    public static void init() {
-    }
-
     public static void get(String url, final HttpCenter.OnHttpResponseListener listener) {
         StringRequest stringRequest = new StringRequest(url,
                 new Response.Listener<String>() {
@@ -73,6 +70,7 @@ class HttpHelper {
             protected Map<String, String> getParams() {
                 return params;
             }
+            
         };
         RequestQueueSingleton.get().add(stringRequest);
     }
