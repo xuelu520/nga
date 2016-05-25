@@ -10,6 +10,8 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+import makyu.nga.utils.StringUtil;
+
 /**
  * Created by bb on 16/5/24.
  * 底层干活的类,不应该暴露出去
@@ -22,6 +24,7 @@ class HttpHelper {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        response = StringUtil.gbk2utf8(response);
                         Log.d(TAG, response);
                         if (listener != null) {
                             listener.onResponse(response);
@@ -50,6 +53,7 @@ class HttpHelper {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        response = StringUtil.gbk2utf8(response);
                         Log.d(TAG, "response -> " + response);
                         if (listener != null) {
                             listener.onResponse(response);
