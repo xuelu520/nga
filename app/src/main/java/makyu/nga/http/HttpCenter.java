@@ -1,5 +1,6 @@
 package makyu.nga.http;
 
+import com.alibaba.fastjson.JSONObject;
 import com.android.volley.VolleyError;
 
 /**
@@ -11,7 +12,7 @@ public class HttpCenter {
     }
 
     public interface OnHttpResponseListener {
-        void onResponse(String response);
+        void onResponse(JSONObject response);
         void onErrorResponse(VolleyError error);
     }
 }

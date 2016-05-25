@@ -1,5 +1,9 @@
 package makyu.nga.utils;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -7,6 +11,10 @@ import java.io.UnsupportedEncodingException;
  * Created by -(^_^)- on 2016/5/25.
  */
 public class StringUtil {
+    private static final String TAG = StringUtil.class.getSimpleName();
+    public static final String  NGA_START = "get_var_store=";
+    public static final int  NGA_START_INDEX = 14;
+
 
     /**
      * TODO
@@ -15,12 +23,26 @@ public class StringUtil {
      * @param response String gbk
      * @return utf8字符串
      */
-    public static String gbk2utf8(String response) {
+    private static String gbk2utf8(String response) {
         try {
             return new String(response.getBytes("ISO-8859-1"), "GBK");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return "";
         }
+    }
+
+    public static JSONObject jsonp2json(String jsonp) {
+        JSONObject jsonObject = null;
+        jsonp = gbk2utf8(jsonp);
+        if(!jsonp.equals("")) {
+            String dataString = jsonp.substring(jsonp.indexOf(NGA_START) + NGA_START_INDEX);
+            try {
+                jsonObject = (JSONObject) JSONArray.parse(dataString);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return jsonObject;
     }
 }
