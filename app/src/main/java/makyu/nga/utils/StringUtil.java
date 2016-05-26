@@ -1,6 +1,5 @@
 package makyu.nga.utils;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
@@ -32,6 +31,12 @@ public class StringUtil {
         }
     }
 
+    /**
+     * NGA接口返回的 jsonp 字符串 转换为 JSON对象
+     * 内部对象可以用 getJSONObject(String key)
+     * @param jsonp String NGA接口返回的jsonp数据
+     * @return jsonObject JSONObject
+     */
     public static JSONObject jsonp2json(String jsonp) {
         JSONObject jsonObject = null;
         jsonp = gbk2utf8(jsonp);
